@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Will You Be My Valentine?</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Space+Grotesk:wght@400;600;700&display=swap');
+
+    :root {
+      --ink: #1a1a1a;
+      --cream: #fff6f3;
+      --rose: #ff5f7a;
+      --peach: #ffb199;
+      --sun: #ffd36e;
+      --berry: #7a2f7a;
+      --card: rgba(255, 255, 255, 0.9);
+      --shadow: 0 20px 40px rgba(20, 10, 25, 0.18);
+      --glow: 0 12px 30px rgba(255, 95, 122, 0.35);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 600px at 10% 0%, #ffe1e8 0%, transparent 60%),
+        radial-gradient(900px 500px at 100% 20%, #ffecc7 0%, transparent 60%),
+        linear-gradient(120deg, #ffeff3 0%, #fff6f3 40%, #fff0e6 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 36px 20px 80px;
+      position: relative;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    .hero-card {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3.6rem);
+      color: #2a1a1f;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #4b3a43;
+    }
+
+    .ring {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border-radius: 999px;
+      padding: 10px 18px;
+      box-shadow: var(--glow);
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .heart-burst {
+      position: absolute;
+      top: -30px;
+      right: 40px;
+      font-size: 2.2rem;
+      opacity: 0.6;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
+    }
+
+    .proposal {
+      background: linear-gradient(135deg, #fff 0%, #ffeef2 100%);
+      border-radius: 26px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .proposal h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      margin-bottom: 12px;
+    }
+
+    .proposal p {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #3a2a33;
+      margin-bottom: 18px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .btn {
+      border: none;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-yes {
+      background: linear-gradient(135deg, var(--rose), var(--peach));
+      color: #fff;
+      box-shadow: var(--glow);
+    }
+
+    .btn-yes:hover { transform: translateY(-2px); }
+
+    .btn-no {
+      background: #f1e8ef;
+      color: #7a5a6d;
+      position: relative;
+    }
+
+    .hidden { display: none; }
+
+    .section {
+      margin-top: 34px;
+      background: var(--card);
+      padding: 24px;
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      margin-bottom: 12px;
+    }
+
+    .quiz-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .quiz-card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 16px;
+      border: 1px solid #f2dbe4;
+    }
+
+    .quiz-card h4 {
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+      color: #3a2a33;
+    }
+
+    .option {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 6px 0;
+      font-size: 0.98rem;
+    }
+
+    .score-box {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 14px;
+      background: #fff4f0;
+      border: 1px dashed #ffb5c4;
+      font-weight: 600;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+    }
+
+    .day {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      border-radius: 16px;
+      padding: 12px 16px;
+      border: 1px solid #f2dbe4;
+    }
+
+    .day span { font-weight: 600; }
+
+    .cards {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 16px;
+      border: 1px solid #f2dbe4;
+      box-shadow: 0 10px 20px rgba(20, 10, 25, 0.08);
+    }
+
+    .card h4 {
+      margin-bottom: 8px;
+      font-size: 1.05rem;
+    }
+
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      color: #6d4e5b;
+      font-size: 0.95rem;
+    }
+
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .emoji-rain {
+      position: fixed;
+      top: -10vh;
+      left: 0;
+      right: 0;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .emoji-drop {
+      position: absolute;
+      font-size: 1.6rem;
+      animation: fall 1.8s ease-in forwards;
+      opacity: 0.9;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(95vh) rotate(360deg); opacity: 0; }
+    }
+
+    @media (max-width: 700px) {
+      .page { padding: 24px 16px 60px; }
+      .proposal, .section { padding: 20px; }
+      .button-row { justify-content: center; }
+      .day { flex-direction: column; gap: 4px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <canvas class="confetti" id="confetti"></canvas>
+  <div class="emoji-rain" id="emojiRain"></div>
+  <div class="page">
+    <div class="heart-burst">💘</div>
+    <section class="hero">
+      <div class="hero-card">
+        <div class="ring">💍 My Forever Question</div>
+        <h1 class="title">Jyoti ❤️</h1>
+        <p class="subtitle">
+          I want to be the reason you smile on February 14th and every day after. This page is my
+          tiny universe, made just for you.
+        </p>
+      </div>
+      <div class="proposal">
+        <h2>Hey Love,</h2>
+        <p>
+          I promise to choose you in every season — on loud days, quiet days, and all the days in
+          between. You are my favorite person, my safest place, and my biggest adventure.
+        </p>
+        <p><strong>So… will you be my Valentine?</strong></p>
+        <div class="button-row">
+          <button class="btn btn-yes" id="yesBtn">Yes, always ❤️</button>
+          <button class="btn btn-no" id="noBtn" type="button">No 🙈</button>
+        </div>
+        <p id="noHint" class="subtitle" style="margin-top:12px; font-size:0.9rem; display:none;">
+          Nice try 😄 The “No” button is shy today.
+        </p>
+      </div>
+    </section>
+
+    <section class="section hidden" id="quizSection">
+      <h3>Love Quiz: How Much Do You Love Me?</h3>
+      <div class="quiz-card" id="quizCard">
+        <h4 id="quizQuestion"></h4>
+        <div id="quizOptions"></div>
+      </div>
+      <div class="button-row" style="margin-top: 12px;">
+        <button class="btn btn-no" id="prevBtn" type="button">Back</button>
+        <button class="btn btn-yes" id="nextBtn" type="button">Next</button>
+      </div>
+      <p class="subtitle" id="quizProgress" style="margin-top: 10px; font-size: 0.95rem;"></p>
+      <div class="score-box hidden" id="scoreBox">Your score will show here 💖</div>
+    </section>
+
+    <section class="section hidden" id="timelineSection">
+      <h3>Valentine Week, One by One</h3>
+      <div class="timeline" id="timelineList"></div>
+      <div class="button-row" style="margin-top: 12px;">
+        <button class="btn btn-yes" id="timelineBtn" type="button">Show First Day</button>
+      </div>
+      <p class="subtitle" id="timelineHint" style="margin-top: 10px; font-size: 0.95rem;">
+        Click to reveal each day with a love thought and emoji.
+      </p>
+    </section>
+
+    <section class="section hidden" id="promiseSection">
+      <h3>Promise Cards</h3>
+      <div class="cards">
+        <div class="card">
+          <h4>Always Listen</h4>
+          <p>I will listen with patience, not just with ears but with heart.</p>
+        </div>
+        <div class="card">
+          <h4>Keep the Spark</h4>
+          <p>I will plan small surprises and make ordinary days feel special.</p>
+        </div>
+        <div class="card">
+          <h4>Grow Together</h4>
+          <p>I will support your dreams and celebrate every win with you.</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 20px;">Sorry Cards</h3>
+      <div class="cards">
+        <div class="card sorry-card" data-emoji="😢">
+          <h4>I Was Wrong</h4>
+          <p>If I mess up, I will say sorry first and fix it with love.</p>
+        </div>
+        <div class="card sorry-card" data-emoji="😢">
+          <h4>Forgive Me?</h4>
+          <p>I will hold your hand, admit my mistake, and earn your smile back.</p>
+        </div>
+        <div class="card sorry-card" data-emoji="😢">
+          <h4>Make It Right</h4>
+          <p>I will learn, change, and never repeat the same mistake.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      Made with love and a little bit of magic ✨
+    </div>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const noHint = document.getElementById('noHint');
+    const quizSection = document.getElementById('quizSection');
+    const timelineSection = document.getElementById('timelineSection');
+    const promiseSection = document.getElementById('promiseSection');
+    const scoreBox = document.getElementById('scoreBox');
+    const quizCard = document.getElementById('quizCard');
+    const quizQuestion = document.getElementById('quizQuestion');
+    const quizOptions = document.getElementById('quizOptions');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const quizProgress = document.getElementById('quizProgress');
+    const timelineList = document.getElementById('timelineList');
+    const timelineBtn = document.getElementById('timelineBtn');
+    const timelineHint = document.getElementById('timelineHint');
+    const emojiRain = document.getElementById('emojiRain');
+
+    const quizData = [
+      {
+        question: 'How much do you love me today? 😘',
+        options: [
+          { label: 'Like the sky loves the stars', points: 20 },
+          { label: 'Like tea loves sugar', points: 15 },
+          { label: 'Like a tiny emoji', points: 10 },
+          { label: 'Still loading…', points: 5 }
+        ]
+      },
+      {
+        question: 'What would you choose for our date night?',
+        options: [
+          { label: 'Long drive + music + you', points: 20 },
+          { label: 'Movie + popcorn + cuddle', points: 15 },
+          { label: 'Street food + walk', points: 12 },
+          { label: 'Let’s just talk forever', points: 18 }
+        ]
+      },
+      {
+        question: 'What nickname do you love for me?',
+        options: [
+          { label: 'My forever', points: 20 },
+          { label: 'Sweetheart', points: 15 },
+          { label: 'Bestie with benefits', points: 10 },
+          { label: 'Mr. Always Right (just kidding)', points: 12 }
+        ]
+      },
+      {
+        question: 'How would you rate my hugs?',
+        options: [
+          { label: 'Home, safe, perfect', points: 20 },
+          { label: 'Warm and cozy', points: 15 },
+          { label: 'Need more hugs', points: 12 },
+          { label: 'Only if you promise more', points: 18 }
+        ]
+      },
+      {
+        question: 'One promise you want from me?',
+        options: [
+          { label: 'Always choose us', points: 20 },
+          { label: 'Keep me laughing', points: 16 },
+          { label: 'Never sleep angry', points: 18 },
+          { label: 'All of the above', points: 20 }
+        ]
+      }
+    ];
+
+    const timelineData = [
+      { day: 'Feb 7', text: 'Rose Day — You are my favorite rose. 🌹' },
+      { day: 'Feb 8', text: 'Propose Day — I will propose again (and again). 💍' },
+      { day: 'Feb 9', text: 'Chocolate Day — Sweet like you. 🍫' },
+      { day: 'Feb 10', text: 'Teddy Day — A hug in teddy form. 🧸' },
+      { day: 'Feb 11', text: 'Promise Day — I will keep every promise. 🤝' },
+      { day: 'Feb 12', text: 'Hug Day — The warmest hug for you. 🤗' },
+      { day: 'Feb 13', text: 'Kiss Day — One kiss, a thousand feelings. 😘' }
+    ];
+
+    let currentQuestion = 0;
+    const answers = new Array(quizData.length).fill(null);
+
+    function renderQuestion() {
+      const item = quizData[currentQuestion];
+      quizQuestion.textContent = `${currentQuestion + 1}. ${item.question}`;
+      quizOptions.innerHTML = '';
+
+      item.options.forEach((opt, index) => {
+        const label = document.createElement('label');
+        label.className = 'option';
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'quizOption';
+        input.value = opt.points;
+        if (answers[currentQuestion] === null && index === 0) {
+          input.checked = true;
+          answers[currentQuestion] = opt.points;
+        } else if (answers[currentQuestion] === opt.points) {
+          input.checked = true;
+        }
+        input.addEventListener('change', () => {
+          answers[currentQuestion] = opt.points;
+        });
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(opt.label));
+        quizOptions.appendChild(label);
+      });
+
+      quizProgress.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
+      prevBtn.disabled = currentQuestion === 0;
+      prevBtn.style.opacity = currentQuestion === 0 ? '0.6' : '1';
+      nextBtn.textContent = currentQuestion === quizData.length - 1 ? 'Finish & Calculate' : 'Next';
+    }
+
+    function launchSections() {
+      quizSection.classList.remove('hidden');
+      timelineSection.classList.remove('hidden');
+      promiseSection.classList.remove('hidden');
+      fireConfetti();
+      renderQuestion();
+    }
+
+    yesBtn.addEventListener('click', () => {
+      launchSections();
+      yesBtn.textContent = 'She said YES! 💍';
+      yesBtn.disabled = true;
+      yesBtn.style.opacity = '0.9';
+      dropEmojiRain('✨', 28);
+    });
+
+    function moveNoButton() {
+      const parent = noBtn.parentElement;
+      const maxX = parent.clientWidth - noBtn.offsetWidth;
+      const maxY = 60;
+      const x = Math.max(0, Math.random() * maxX);
+      const y = Math.max(0, Math.random() * maxY);
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+      noHint.style.display = 'block';
+    }
+
+    noBtn.addEventListener('mouseenter', moveNoButton);
+    noBtn.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentQuestion < quizData.length - 1) {
+        currentQuestion += 1;
+        renderQuestion();
+        return;
+      }
+
+      const total = answers.reduce((sum, value) => sum + (value || 0), 0);
+      let message = '';
+      if (total >= 90) message = 'Soulmate level: 100% ❤️ You love me to the moon and back!';
+      else if (total >= 70) message = 'Super love score 💖 You are deeply in love!';
+      else if (total >= 50) message = 'Sweet love score 💕 You like me a lot!';
+      else message = 'Cute love score 💗 We need more dates!';
+
+      scoreBox.textContent = `${message} (Score: ${total}/100) 😘`;
+      scoreBox.classList.remove('hidden');
+      nextBtn.disabled = true;
+      nextBtn.style.opacity = '0.7';
+      dropEmojiRain('😘', 18);
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentQuestion > 0) {
+        currentQuestion -= 1;
+        renderQuestion();
+      }
+    });
+
+    let timelineIndex = 0;
+    timelineBtn.addEventListener('click', () => {
+      if (timelineIndex >= timelineData.length) return;
+      const item = timelineData[timelineIndex];
+      const row = document.createElement('div');
+      row.className = 'day';
+      row.innerHTML = `<span>${item.day}</span>${item.text}`;
+      timelineList.appendChild(row);
+      const dayEmojiMatch = item.text.match(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u);
+      dropEmojiRain(dayEmojiMatch ? dayEmojiMatch[0] : '💖', 14);
+      timelineIndex += 1;
+
+      if (timelineIndex === 1) {
+        timelineBtn.textContent = 'Show Next Day';
+      }
+
+      if (timelineIndex >= timelineData.length) {
+        timelineBtn.disabled = true;
+        timelineBtn.style.opacity = '0.7';
+        timelineHint.textContent = 'All days revealed. Happy Valentine week! 💖';
+      }
+    });
+
+    function fireConfetti() {
+      const canvas = document.getElementById('confetti');
+      const ctx = canvas.getContext('2d');
+      const pieces = Array.from({ length: 120 }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * -window.innerHeight,
+        size: 6 + Math.random() * 6,
+        speed: 2 + Math.random() * 3,
+        drift: -1 + Math.random() * 2,
+        color: ['#ff5f7a', '#ffb199', '#ffd36e', '#7a2f7a'][Math.floor(Math.random() * 4)]
+      }));
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      resize();
+      window.addEventListener('resize', resize);
+
+      let frame = 0;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach((p) => {
+          p.y += p.speed;
+          p.x += p.drift;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(p.x, p.y, p.size, p.size);
+          if (p.y > canvas.height + 20) {
+            p.y = -20;
+            p.x = Math.random() * canvas.width;
+          }
+        });
+        frame += 1;
+        if (frame < 240) requestAnimationFrame(draw);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    function dropEmojiRain(symbol, count) {
+      for (let i = 0; i < count; i += 1) {
+        const drop = document.createElement('div');
+        drop.className = 'emoji-drop';
+        drop.textContent = symbol;
+        drop.style.left = `${Math.random() * 100}%`;
+        drop.style.animationDelay = `${Math.random() * 0.6}s`;
+        drop.style.fontSize = `${1.2 + Math.random() * 1.4}rem`;
+        emojiRain.appendChild(drop);
+        setTimeout(() => drop.remove(), 2200);
+      }
+    }
+
+    document.querySelectorAll('.sorry-card').forEach((card) => {
+      card.addEventListener('click', () => {
+        dropEmojiRain(card.dataset.emoji || '😢', 16);
+      });
+    });
+
+    renderQuestion();
+  </script>
+</body>
+</html>
