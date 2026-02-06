@@ -248,6 +248,82 @@
       z-index: 5;
     }
 
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 10, 25, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: linear-gradient(135deg, #fff0f5 0%, #ffe6ee 100%);
+      border-radius: 22px;
+      padding: 20px;
+      max-width: 520px;
+      width: 100%;
+      box-shadow: var(--shadow);
+      position: relative;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .modal-card img {
+      width: 100%;
+      border-radius: 16px;
+      margin-bottom: 12px;
+      border: 2px solid #ffd6e2;
+    }
+
+    .modal-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 6px;
+      color: #3a1f2a;
+    }
+
+    .modal-card p {
+      font-size: 1rem;
+      color: #4b2f38;
+      line-height: 1.5;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      background: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-weight: 700;
+      color: #7a2f7a;
+      box-shadow: 0 6px 14px rgba(20, 10, 25, 0.12);
+    }
+
+    .rose-btn {
+      border: none;
+      background: #fff0f5;
+      color: #c2185b;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+
     .emoji-rain {
       position: fixed;
       top: -10vh;
@@ -281,6 +357,14 @@
 <body>
   <canvas class="confetti" id="confetti"></canvas>
   <div class="emoji-rain" id="emojiRain"></div>
+  <div class="modal" id="roseModal" aria-hidden="true">
+    <div class="modal-card">
+      <button class="modal-close" id="roseClose" type="button">Close</button>
+      <img src="https://raw.githubusercontent.com/ArvindSingh1099/ajs/refs/heads/master/ChatGPT%20Image%20Feb%206%2C%202026%20at%2011_57_02%20PM.png" alt="Happy Rose Day Jyoti">
+      <h4>Happy Rose Day, Jyoti 🌹</h4>
+      <p>You are the rose of my heart — soft, beautiful, and full of love.</p>
+    </div>
+  </div>
   <div class="page">
     <div class="heart-burst">💘</div>
     <section class="hero">
@@ -391,6 +475,8 @@
     const timelineBtn = document.getElementById('timelineBtn');
     const timelineHint = document.getElementById('timelineHint');
     const emojiRain = document.getElementById('emojiRain');
+    const roseModal = document.getElementById('roseModal');
+    const roseClose = document.getElementById('roseClose');
 
     const quizData = [
       {
@@ -441,7 +527,7 @@
     ];
 
     const timelineData = [
-      { day: 'Feb 7', text: 'Rose Day — You are my favorite rose. 🌹' },
+      { day: 'Feb 7', text: 'Rose Day — You are my favorite rose. 🌹', rose: true },
       { day: 'Feb 8', text: 'Propose Day — I will propose again (and again). 💍' },
       { day: 'Feb 9', text: 'Chocolate Day — Sweet like you. 🍫' },
       { day: 'Feb 10', text: 'Teddy Day — A hug in teddy form. 🧸' },
@@ -551,8 +637,18 @@
       const item = timelineData[timelineIndex];
       const row = document.createElement('div');
       row.className = 'day';
-      row.innerHTML = `<span>${item.day}</span>${item.text}`;
+      if (item.rose) {
+        row.innerHTML = `<span>${item.day}</span>${item.text} <button class="rose-btn" type="button">Open Rose Image</button>`;
+      } else {
+        row.innerHTML = `<span>${item.day}</span>${item.text}`;
+      }
       timelineList.appendChild(row);
+      if (item.rose) {
+        row.querySelector('.rose-btn').addEventListener('click', () => {
+          openRoseModal();
+          dropEmojiRain('🌹', 22);
+        });
+      }
       const dayEmojiMatch = item.text.match(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u);
       dropEmojiRain(dayEmojiMatch ? dayEmojiMatch[0] : '💖', 14);
       timelineIndex += 1;
@@ -621,6 +717,22 @@
         setTimeout(() => drop.remove(), 2200);
       }
     }
+
+    function openRoseModal() {
+      roseModal.classList.add('show');
+      roseModal.setAttribute('aria-hidden', 'false');
+      dropEmojiRain('🌹', 30);
+    }
+
+    function closeRoseModal() {
+      roseModal.classList.remove('show');
+      roseModal.setAttribute('aria-hidden', 'true');
+    }
+
+    roseClose.addEventListener('click', closeRoseModal);
+    roseModal.addEventListener('click', (e) => {
+      if (e.target === roseModal) closeRoseModal();
+    });
 
     document.querySelectorAll('.sorry-card').forEach((card) => {
       card.addEventListener('click', () => {
