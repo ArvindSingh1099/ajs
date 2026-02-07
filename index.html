@@ -222,6 +222,16 @@
       box-shadow: 0 10px 20px rgba(20, 10, 25, 0.08);
     }
 
+    .day.locked {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .day.locked:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
     .cards {
       display: grid;
       gap: 16px;
@@ -580,7 +590,7 @@
         label: 'Propose Day',
         text: 'I will propose again (and again). 💍',
         emoji: '💍',
-        image: '',
+        image: 'https://raw.githubusercontent.com/ArvindSingh1099/ajs/refs/heads/master/purpose.png',
         title: 'Happy Propose Day, Jyoti 💍',
         thought: 'If I had to choose again, I would still choose you.',
         spotifyEmbed: 'https://open.spotify.com/embed/track/6tzckBcK66LzeSA1Opnv35'
@@ -590,7 +600,7 @@
         label: 'Chocolate Day',
         text: 'Sweet like you. 🍫',
         emoji: '🍫',
-        image: '',
+        image: 'https://raw.githubusercontent.com/ArvindSingh1099/ajs/refs/heads/master/chocolate.png',
         title: 'Happy Chocolate Day, Jyoti 🍫',
         thought: 'Life is sweeter with you in it.',
         spotifyEmbed: 'https://open.spotify.com/embed/track/6VBhH7CyP56BXjp8VsDFPZ'
@@ -600,7 +610,7 @@
         label: 'Teddy Day',
         text: 'A hug in teddy form. 🧸',
         emoji: '🧸',
-        image: '',
+        image: 'https://raw.githubusercontent.com/ArvindSingh1099/ajs/refs/heads/master/teddy.png',
         title: 'Happy Teddy Day, Jyoti 🧸',
         thought: 'This teddy is just a small version of my big hugs.',
         spotifyEmbed: 'https://open.spotify.com/embed/track/24ap6jAhBrPffiM4rMuSgV'
@@ -610,7 +620,7 @@
         label: 'Promise Day',
         text: 'I will keep every promise. 🤝',
         emoji: '🤝',
-        image: '',
+        image: 'https://raw.githubusercontent.com/ArvindSingh1099/ajs/refs/heads/master/promise_day.png',
         title: 'Happy Promise Day, Jyoti 🤝',
         thought: 'I promise to love you loudly and gently, every single day.',
         spotifyEmbed: 'https://open.spotify.com/embed/track/2fulGJqMjjE3UDGXqv9kVL'
@@ -620,7 +630,7 @@
         label: 'Hug Day',
         text: 'The warmest hug for you. 🤗',
         emoji: '🤗',
-        image: '',
+        image: 'https://raw.githubusercontent.com/ArvindSingh1099/ajs/refs/heads/master/hug.png',
         title: 'Happy Hug Day, Jyoti 🤗',
         thought: 'Come close — your hug is my favorite home.',
         spotifyEmbed: 'https://open.spotify.com/embed/track/4uxO0ZzMKmPabWq4a5Hbnl'
@@ -630,7 +640,7 @@
         label: 'Kiss Day',
         text: 'One kiss, a thousand feelings. 😘',
         emoji: '😘',
-        image: '',
+        image: 'https://raw.githubusercontent.com/ArvindSingh1099/ajs/refs/heads/master/kiss.png',
         title: 'Happy Kiss Day, Jyoti 😘',
         thought: 'A kiss to remind you how deeply I love you.',
         spotifyEmbed: 'https://open.spotify.com/embed/track/2AEovphJE2ulzkfwqCR9iu'
@@ -740,7 +750,14 @@
       row.className = 'day';
       row.innerHTML = `<span>${item.day}</span>${item.label} — ${item.text}`;
       timelineList.appendChild(row);
-      row.addEventListener('click', () => openDayModal(item));
+      if (!isToday(item.day)) {
+        row.classList.add('locked');
+        row.addEventListener('click', () => {
+          timelineHint.textContent = `This opens only on ${item.day}.`;
+        });
+      } else {
+        row.addEventListener('click', () => openDayModal(item));
+      }
       dropEmojiRain(item.emoji || '💖', 14);
       timelineIndex += 1;
 
@@ -807,6 +824,20 @@
         emojiRain.appendChild(drop);
         setTimeout(() => drop.remove(), 2200);
       }
+    }
+
+    function isToday(dayLabel) {
+      const parts = dayLabel.split(' ');
+      if (parts.length < 2) return false;
+      const monthMap = {
+        Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+        Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11
+      };
+      const month = monthMap[parts[0]];
+      const day = Number(parts[1]);
+      if (Number.isNaN(month) || Number.isNaN(day)) return false;
+      const now = new Date();
+      return now.getMonth() === month && now.getDate() === day;
     }
 
     function openDayModal(item) {
