@@ -750,7 +750,7 @@
       row.className = 'day';
       row.innerHTML = `<span>${item.day}</span>${item.label} — ${item.text}`;
       timelineList.appendChild(row);
-      if (!isToday(item.day)) {
+      if (!isUnlockedDay(item.day)) {
         row.classList.add('locked');
         row.addEventListener('click', () => {
           timelineHint.textContent = `This opens only on ${item.day}.`;
@@ -826,7 +826,7 @@
       }
     }
 
-    function isToday(dayLabel) {
+    function isUnlockedDay(dayLabel) {
       const parts = dayLabel.split(' ');
       if (parts.length < 2) return false;
       const monthMap = {
@@ -837,7 +837,9 @@
       const day = Number(parts[1]);
       if (Number.isNaN(month) || Number.isNaN(day)) return false;
       const now = new Date();
-      return now.getMonth() === month && now.getDate() <= day;
+      const target = new Date(now.getFullYear(), month, day);
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      return target <= today;
     }
 
     function openDayModal(item) {
