@@ -837,7 +837,7 @@
       const day = Number(parts[1]);
       if (Number.isNaN(month) || Number.isNaN(day)) return false;
       const now = new Date();
-      return now.getMonth() === month && now.getDate() === day;
+      return now.getMonth() === month && now.getDate() <= day;
     }
 
     function openDayModal(item) {
