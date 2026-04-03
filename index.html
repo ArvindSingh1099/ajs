@@ -833,6 +833,95 @@
 
     .month-placeholder p { font-size: 0.95rem; }
 
+    /* ===== FULLSCREEN CHAT ===== */
+    .chat-fullscreen {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(180deg, #fff9fb 0%, #fff0f5 100%);
+      transition: transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.3s;
+    }
+    .chat-fullscreen.hidden {
+      transform: translateY(100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .cf-header {
+      background: linear-gradient(135deg, var(--rose), var(--peach));
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(180,60,90,.15);
+    }
+    .cf-back {
+      background: rgba(255,255,255,0.22);
+      border: none;
+      color: #fff;
+      padding: 7px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+      transition: background .2s;
+      white-space: nowrap;
+    }
+    .cf-back:hover { background: rgba(255,255,255,0.38); }
+    .cf-title { flex: 1; min-width: 0; }
+    .cf-name { color: #fff; font-weight: 700; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cf-sub  { color: rgba(255,255,255,0.82); font-size: 0.72rem; }
+    .cf-search-btn {
+      background: rgba(255,255,255,0.22);
+      border: none;
+      color: #fff;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background .2s;
+    }
+    .cf-search-btn:hover { background: rgba(255,255,255,0.38); }
+    .cf-search-bar {
+      background: #fff;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #ffd6e2;
+      flex-shrink: 0;
+    }
+    .cf-search-bar.hidden { display: none; }
+    .cf-search-bar input {
+      flex: 1;
+      border: 1.5px solid #ffd6e2;
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 0.9rem;
+      outline: none;
+      color: #4b2f38;
+      font-family: inherit;
+    }
+    .cf-search-bar input:focus { border-color: var(--rose); }
+    .cf-search-count { font-size: 0.78rem; color: #b09aa8; white-space: nowrap; }
+    .cf-search-close { background: none; border: none; color: #b09aa8; cursor: pointer; font-size: 1.1rem; padding: 2px 4px; }
+    .cf-msgs {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 12px 28px;
+      scrollbar-width: thin;
+      scrollbar-color: #ffd6e2 transparent;
+    }
+    .cf-msgs::-webkit-scrollbar { width: 5px; }
+    .cf-msgs::-webkit-scrollbar-thumb { background: #ffd6e2; border-radius: 999px; }
+    .bubble.search-match { outline: 2.5px solid var(--rose); outline-offset: 1px; }
+    .msg-row.search-dim { opacity: 0.2; }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 700px) {
       .page { padding: 24px 16px 60px; }
@@ -1029,27 +1118,28 @@
           <div class="month-pills" id="monthPills"></div>
         </div>
 
-        <!-- Chat window -->
-        <div class="chat-window">
-          <div class="chat-win-header">
-            <div class="mini-av">J</div>
-            <div>
-              <div class="win-name" id="winName">ज्योति शेखावत 🍁</div>
-              <div class="win-sub" id="winSub">Select a month to read messages</div>
-            </div>
-            <div class="win-heart">❤️</div>
-          </div>
-
-          <div class="chat-msgs-wrap" id="chatMsgsWrap">
-            <div class="month-placeholder" id="monthPlaceholder">
-              <span class="big-emoji">💬</span>
-              <p>Pick a month above to read your chats</p>
-            </div>
-          </div>
-        </div>
+        <p style="text-align:center;color:#b09aa8;font-size:0.85rem;margin-top:12px;">Tap a month to open the chat 💬</p>
       </div>
 
     </div>
+  </div>
+
+  <!-- Fullscreen chat overlay -->
+  <div class="chat-fullscreen hidden" id="chatFullscreen">
+    <div class="cf-header">
+      <button class="cf-back" id="cfBack">← Back</button>
+      <div class="cf-title">
+        <div class="cf-name" id="cfName">ज्योति शेखावत 🍁</div>
+        <div class="cf-sub"  id="cfSub">Messages</div>
+      </div>
+      <button class="cf-search-btn" id="cfSearchBtn" title="Search messages">🔍</button>
+    </div>
+    <div class="cf-search-bar hidden" id="cfSearchBar">
+      <input type="text" id="cfSearchInput" placeholder="Search messages…" autocomplete="off" />
+      <span class="cf-search-count" id="cfSearchCount"></span>
+      <button class="cf-search-close" id="cfSearchClose">✕</button>
+    </div>
+    <div class="cf-msgs" id="cfMsgs"></div>
   </div>
 
   <script>
@@ -1557,8 +1647,8 @@
           pillsEl.appendChild(btn);
         });
 
-        // Update win-name with decoded name
-        if (JYOTI_NAME) $('winName').textContent = JYOTI_NAME;
+        // Update fullscreen header name with decoded name
+        if (JYOTI_NAME) $('cfName').textContent = JYOTI_NAME;
 
         $('chatLoading').classList.add('hidden');
         $('chatMonthSection').classList.remove('hidden');
@@ -1619,12 +1709,83 @@
       return null;
     }
 
+    /* ── Fullscreen chat controls ── */
+    const chatFS      = $('chatFullscreen');
+    const cfBack      = $('cfBack');
+    const cfSearchBtn = $('cfSearchBtn');
+    const cfSearchBar = $('cfSearchBar');
+    const cfSearchInput = $('cfSearchInput');
+    const cfSearchCount = $('cfSearchCount');
+    const cfSearchClose = $('cfSearchClose');
+
+    function openFullscreen(label, sub) {
+      $('cfName').textContent = label;
+      $('cfSub').textContent  = sub;
+      chatFS.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      closeSearch();
+    }
+
+    function closeFullscreen() {
+      chatFS.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    function closeSearch() {
+      cfSearchBar.classList.add('hidden');
+      cfSearchInput.value = '';
+      cfSearchCount.textContent = '';
+      clearSearch();
+    }
+
+    function clearSearch() {
+      $('cfMsgs').querySelectorAll('.msg-row').forEach(r => {
+        r.classList.remove('search-dim');
+        r.querySelector('.bubble')?.classList.remove('search-match');
+      });
+    }
+
+    function runSearch(term) {
+      const rows = $('cfMsgs').querySelectorAll('.msg-row');
+      if (!term) { clearSearch(); cfSearchCount.textContent = ''; return; }
+      const q = term.toLowerCase();
+      let count = 0;
+      let firstMatch = null;
+      rows.forEach(row => {
+        const bubble = row.querySelector('.bubble');
+        const text = bubble ? bubble.textContent.toLowerCase() : '';
+        if (text.includes(q)) {
+          row.classList.remove('search-dim');
+          bubble.classList.add('search-match');
+          count++;
+          if (!firstMatch) firstMatch = row;
+        } else {
+          row.classList.add('search-dim');
+          bubble?.classList.remove('search-match');
+        }
+      });
+      cfSearchCount.textContent = count ? `${count} found` : 'No results';
+      if (firstMatch) firstMatch.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+
+    cfBack.addEventListener('click', closeFullscreen);
+    cfSearchBtn.addEventListener('click', () => {
+      cfSearchBar.classList.toggle('hidden');
+      if (!cfSearchBar.classList.contains('hidden')) cfSearchInput.focus();
+      else closeSearch();
+    });
+    cfSearchClose.addEventListener('click', closeSearch);
+    cfSearchInput.addEventListener('input', () => runSearch(cfSearchInput.value.trim()));
+
     function renderChatMonth(monthKey) {
       const msgs = messagesByMonth[monthKey] || [];
-      const wrap = $('chatMsgsWrap');
+      const wrap = $('cfMsgs');
 
-      // Update sub-label
-      $('winSub').textContent = `${monthLabel(monthKey)} · ${msgs.length} messages`;
+      // Open fullscreen
+      openFullscreen(
+        JYOTI_NAME || 'ज्योति शेखावत 🍁',
+        `${monthLabel(monthKey)} · ${msgs.length} messages`
+      );
 
       wrap.innerHTML = '';
 
@@ -1711,7 +1872,7 @@
       wrap.appendChild(fragment);
 
       // Scroll to bottom
-      wrap.scrollTop = wrap.scrollHeight;
+      requestAnimationFrame(() => { wrap.scrollTop = wrap.scrollHeight; });
     }
   </script>
 </body>
