@@ -833,6 +833,87 @@
 
     .month-placeholder p { font-size: 0.95rem; }
 
+    /* ===== CALENDAR ===== */
+    .chat-calendar {
+      background: #fff;
+      border-radius: 20px;
+      padding: 18px 16px 14px;
+      margin-top: 18px;
+      box-shadow: 0 4px 24px rgba(180,60,90,.10);
+      animation: fadeUp .28s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .cal-month-label {
+      text-align: center;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--rose);
+      margin-bottom: 14px;
+      font-family: 'Playfair Display', serif;
+    }
+    .cal-dow-row {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #c9aab8;
+      letter-spacing: .04em;
+      margin-bottom: 6px;
+    }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+    .cal-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 0.82rem;
+      color: #dcc8d2;
+      user-select: none;
+    }
+    .cal-day.has-msgs {
+      background: linear-gradient(135deg, #ffe0ea, #ffd0e4);
+      color: var(--rose);
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .15s, background .15s, color .15s;
+      position: relative;
+    }
+    .cal-day.has-msgs::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--rose);
+      opacity: .6;
+    }
+    .cal-day.has-msgs:hover,
+    .cal-day.has-msgs.selected {
+      background: linear-gradient(135deg, var(--rose), var(--peach));
+      color: #fff;
+      transform: scale(1.15);
+      box-shadow: 0 3px 10px rgba(180,60,90,.25);
+    }
+    .cal-day.has-msgs.selected::after { background: #fff; }
+    .cal-hint {
+      text-align: center;
+      font-size: 0.74rem;
+      color: #c9aab8;
+      margin-top: 12px;
+    }
+
     /* ===== FULLSCREEN CHAT ===== */
     .chat-fullscreen {
       position: fixed;
@@ -908,8 +989,24 @@
       font-family: inherit;
     }
     .cf-search-bar input:focus { border-color: var(--rose); }
-    .cf-search-count { font-size: 0.78rem; color: #b09aa8; white-space: nowrap; }
+    .cf-search-count { font-size: 0.78rem; color: #b09aa8; white-space: nowrap; min-width: 60px; text-align: center; }
+    .cf-search-nav {
+      background: #ffeef4;
+      border: none;
+      color: var(--rose);
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background .15s, transform .1s;
+    }
+    .cf-search-nav:hover { background: var(--rose); color: #fff; transform: scale(1.1); }
+    .cf-search-nav:disabled { opacity: 0.3; cursor: default; transform: none; }
     .cf-search-close { background: none; border: none; color: #b09aa8; cursor: pointer; font-size: 1.1rem; padding: 2px 4px; }
+    .bubble.search-current { outline: 2.5px solid #e0295a !important; background: #ffe0ea !important; }
     .cf-msgs {
       flex: 1;
       overflow-y: auto;
@@ -1118,7 +1215,15 @@
           <div class="month-pills" id="monthPills"></div>
         </div>
 
-        <p style="text-align:center;color:#b09aa8;font-size:0.85rem;margin-top:12px;">Tap a month to open the chat 💬</p>
+        <!-- Calendar view -->
+        <div id="chatCalendar" class="chat-calendar hidden">
+          <div class="cal-month-label" id="calMonthLabel"></div>
+          <div class="cal-dow-row">
+            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+          <p class="cal-hint">Tap a highlighted date to read messages from that day 💬</p>
+        </div>
       </div>
 
     </div>
@@ -1137,6 +1242,8 @@
     <div class="cf-search-bar hidden" id="cfSearchBar">
       <input type="text" id="cfSearchInput" placeholder="Search messages…" autocomplete="off" />
       <span class="cf-search-count" id="cfSearchCount"></span>
+      <button class="cf-search-nav" id="cfSearchPrev" title="Previous">↑</button>
+      <button class="cf-search-nav" id="cfSearchNext" title="Next">↓</button>
       <button class="cf-search-close" id="cfSearchClose">✕</button>
     </div>
     <div class="cf-msgs" id="cfMsgs"></div>
@@ -1642,7 +1749,7 @@
           btn.addEventListener('click', () => {
             document.querySelectorAll('.month-pill').forEach(p => p.classList.remove('active'));
             btn.classList.add('active');
-            renderChatMonth(key);
+            renderCalendar(key);
           });
           pillsEl.appendChild(btn);
         });
@@ -1653,7 +1760,7 @@
         $('chatLoading').classList.add('hidden');
         $('chatMonthSection').classList.remove('hidden');
 
-        // Auto-select the most recent month
+        // Auto-show calendar for the most recent month
         if (months.length > 0) {
           const lastBtn = pillsEl.querySelector('.month-pill:last-child');
           if (lastBtn) lastBtn.click();
@@ -1713,10 +1820,15 @@
     const chatFS      = $('chatFullscreen');
     const cfBack      = $('cfBack');
     const cfSearchBtn = $('cfSearchBtn');
-    const cfSearchBar = $('cfSearchBar');
+    const cfSearchBar   = $('cfSearchBar');
     const cfSearchInput = $('cfSearchInput');
     const cfSearchCount = $('cfSearchCount');
     const cfSearchClose = $('cfSearchClose');
+    const cfSearchPrev  = $('cfSearchPrev');
+    const cfSearchNext  = $('cfSearchNext');
+
+    let searchMatches = [];   // array of bubble elements that match
+    let searchIndex   = -1;   // current highlighted index
 
     function openFullscreen(label, sub) {
       $('cfName').textContent = label;
@@ -1734,38 +1846,67 @@
     function closeSearch() {
       cfSearchBar.classList.add('hidden');
       cfSearchInput.value = '';
-      cfSearchCount.textContent = '';
       clearSearch();
     }
 
     function clearSearch() {
       $('cfMsgs').querySelectorAll('.msg-row').forEach(r => {
         r.classList.remove('search-dim');
-        r.querySelector('.bubble')?.classList.remove('search-match');
+        r.querySelector('.bubble')?.classList.remove('search-match', 'search-current');
       });
+      searchMatches = [];
+      searchIndex   = -1;
+      updateSearchUI(0);
+    }
+
+    function updateSearchUI(count) {
+      if (count === 0) {
+        cfSearchCount.textContent = searchMatches.length === 0 && cfSearchInput.value ? 'No results' : '';
+      } else {
+        cfSearchCount.textContent = `${searchIndex + 1} / ${count}`;
+      }
+      cfSearchPrev.disabled = searchMatches.length === 0;
+      cfSearchNext.disabled = searchMatches.length === 0;
+    }
+
+    function scrollToMatch(idx) {
+      if (searchMatches.length === 0) return;
+      // Remove current highlight from previous
+      searchMatches.forEach(b => b.classList.remove('search-current'));
+      searchIndex = (idx + searchMatches.length) % searchMatches.length; // wrap around
+      const bubble = searchMatches[searchIndex];
+      bubble.classList.add('search-current');
+      bubble.closest('.msg-row').scrollIntoView({ block: 'center', behavior: 'smooth' });
+      updateSearchUI(searchMatches.length);
     }
 
     function runSearch(term) {
       const rows = $('cfMsgs').querySelectorAll('.msg-row');
-      if (!term) { clearSearch(); cfSearchCount.textContent = ''; return; }
+      // Reset
+      rows.forEach(r => {
+        r.classList.remove('search-dim');
+        r.querySelector('.bubble')?.classList.remove('search-match', 'search-current');
+      });
+      searchMatches = [];
+      searchIndex   = -1;
+
+      if (!term) { updateSearchUI(0); cfSearchCount.textContent = ''; return; }
+
       const q = term.toLowerCase();
-      let count = 0;
-      let firstMatch = null;
       rows.forEach(row => {
         const bubble = row.querySelector('.bubble');
-        const text = bubble ? bubble.textContent.toLowerCase() : '';
+        const text   = bubble ? bubble.textContent.toLowerCase() : '';
         if (text.includes(q)) {
           row.classList.remove('search-dim');
           bubble.classList.add('search-match');
-          count++;
-          if (!firstMatch) firstMatch = row;
+          searchMatches.push(bubble);
         } else {
           row.classList.add('search-dim');
-          bubble?.classList.remove('search-match');
         }
       });
-      cfSearchCount.textContent = count ? `${count} found` : 'No results';
-      if (firstMatch) firstMatch.scrollIntoView({ block: 'center', behavior: 'smooth' });
+
+      if (searchMatches.length > 0) scrollToMatch(0);
+      else updateSearchUI(0);
     }
 
     cfBack.addEventListener('click', closeFullscreen);
@@ -1776,8 +1917,58 @@
     });
     cfSearchClose.addEventListener('click', closeSearch);
     cfSearchInput.addEventListener('input', () => runSearch(cfSearchInput.value.trim()));
+    cfSearchNext.addEventListener('click', () => scrollToMatch(searchIndex + 1));
+    cfSearchPrev.addEventListener('click', () => scrollToMatch(searchIndex - 1));
 
-    function renderChatMonth(monthKey) {
+    /* ── Calendar renderer ── */
+    function renderCalendar(monthKey) {
+      const [year, month] = monthKey.split('-').map(Number);
+      const msgs = messagesByMonth[monthKey] || [];
+
+      // Collect days that have messages
+      const daysWithMsgs = new Set();
+      msgs.forEach(m => {
+        const d = new Date(m.timestamp_ms);
+        daysWithMsgs.add(d.getDate());
+      });
+
+      $('calMonthLabel').textContent = monthLabel(monthKey);
+
+      const grid = $('calGrid');
+      grid.innerHTML = '';
+
+      const firstDayOfWeek = new Date(year, month - 1, 1).getDay(); // 0=Sun
+      const daysInMonth    = new Date(year, month, 0).getDate();
+
+      // Leading empty cells
+      for (let i = 0; i < firstDayOfWeek; i++) {
+        grid.appendChild(Object.assign(document.createElement('div'), { className: 'cal-day' }));
+      }
+
+      // Day cells
+      for (let d = 1; d <= daysInMonth; d++) {
+        const cell = document.createElement('div');
+        cell.className = 'cal-day';
+        cell.textContent = d;
+
+        if (daysWithMsgs.has(d)) {
+          cell.classList.add('has-msgs');
+          cell.addEventListener('click', () => {
+            grid.querySelectorAll('.cal-day.selected').forEach(c => c.classList.remove('selected'));
+            cell.classList.add('selected');
+            renderChatMonth(monthKey, d);
+          });
+        }
+
+        grid.appendChild(cell);
+      }
+
+      $('chatCalendar').classList.remove('hidden');
+      // Scroll calendar into view smoothly
+      $('chatCalendar').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function renderChatMonth(monthKey, scrollToDay) {
       const msgs = messagesByMonth[monthKey] || [];
       const wrap = $('cfMsgs');
 
@@ -1809,6 +2000,7 @@
         if (lastTs === null || !sameDay(lastTs, msg.timestamp_ms)) {
           const sep = document.createElement('div');
           sep.className = 'date-sep';
+          sep.dataset.day = new Date(msg.timestamp_ms).getDate();
           sep.innerHTML = `<span>${formatDateSep(msg.timestamp_ms)}</span>`;
           fragment.appendChild(sep);
           lastSender = null; // reset chain after date break
@@ -1871,8 +2063,19 @@
 
       wrap.appendChild(fragment);
 
-      // Scroll to bottom
-      requestAnimationFrame(() => { wrap.scrollTop = wrap.scrollHeight; });
+      // Scroll to selected day, or bottom if no day specified
+      requestAnimationFrame(() => {
+        if (scrollToDay) {
+          const target = wrap.querySelector(`.date-sep[data-day="${scrollToDay}"]`);
+          if (target) {
+            target.scrollIntoView({ block: 'start' });
+            // nudge up slightly so the separator isn't hidden under header
+            wrap.scrollTop -= 12;
+            return;
+          }
+        }
+        wrap.scrollTop = wrap.scrollHeight;
+      });
     }
   </script>
 </body>
