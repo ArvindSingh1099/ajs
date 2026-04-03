@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Will You Be My Valentine?</title>
+  <title>Jyoti & Arvind ❤️</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Space+Grotesk:wght@400;600;700&display=swap');
 
@@ -22,7 +22,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Space Grotesk', 'Noto Sans Devanagari', sans-serif;
       color: var(--ink);
       background:
         radial-gradient(1200px 600px at 10% 0%, #ffe1e8 0%, transparent 60%),
@@ -32,6 +32,72 @@
       overflow-x: hidden;
     }
 
+    /* ===== TAB NAVIGATION ===== */
+    .tabs-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 15;
+      background: rgba(255, 246, 243, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 182, 196, 0.35);
+      padding: 10px 20px;
+    }
+
+    .tabs-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tabs-logo {
+      font-size: 1.3rem;
+      margin-right: 6px;
+      animation: heartbeat-pulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat-pulse {
+      0%, 100% { transform: scale(1); }
+      14%       { transform: scale(1.25); }
+      28%       { transform: scale(1); }
+      42%       { transform: scale(1.15); }
+      70%       { transform: scale(1); }
+    }
+
+    .tab-btn {
+      padding: 9px 22px;
+      border-radius: 999px;
+      border: 2px solid #ffd6e2;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-family: 'Space Grotesk', sans-serif;
+      transition: all 0.22s ease;
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--berry);
+      outline: none;
+      letter-spacing: 0.01em;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--rose), var(--peach));
+      color: #fff;
+      border-color: transparent;
+      box-shadow: var(--glow);
+    }
+
+    .tab-btn:not(.active):hover {
+      background: #fff;
+      border-color: var(--rose);
+    }
+
+    /* ===== TAB CONTENT ===== */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ===== VALENTINE PAGE (existing) ===== */
     .page {
       max-width: 1100px;
       margin: 0 auto;
@@ -91,7 +157,7 @@
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-14px); }
+      50%       { transform: translateY(-14px); }
     }
 
     .proposal {
@@ -163,10 +229,7 @@
       margin-bottom: 12px;
     }
 
-    .quiz-list {
-      display: grid;
-      gap: 18px;
-    }
+    .quiz-list { display: grid; gap: 18px; }
 
     .quiz-card {
       background: #fff;
@@ -198,10 +261,7 @@
       font-weight: 600;
     }
 
-    .timeline {
-      display: grid;
-      gap: 12px;
-    }
+    .timeline { display: grid; gap: 12px; }
 
     .day {
       display: flex;
@@ -222,15 +282,8 @@
       box-shadow: 0 10px 20px rgba(20, 10, 25, 0.08);
     }
 
-    .day.locked {
-      opacity: 0.65;
-      cursor: not-allowed;
-    }
-
-    .day.locked:hover {
-      transform: none;
-      box-shadow: none;
-    }
+    .day.locked { opacity: 0.65; cursor: not-allowed; }
+    .day.locked:hover { transform: none; box-shadow: none; }
 
     .cards {
       display: grid;
@@ -246,10 +299,7 @@
       box-shadow: 0 10px 20px rgba(20, 10, 25, 0.08);
     }
 
-    .card h4 {
-      margin-bottom: 8px;
-      font-size: 1.05rem;
-    }
+    .card h4 { margin-bottom: 8px; font-size: 1.05rem; }
 
     .footer {
       margin-top: 40px;
@@ -279,10 +329,7 @@
       transition: opacity 0.2s ease;
     }
 
-    .modal.show {
-      opacity: 1;
-      pointer-events: auto;
-    }
+    .modal.show { opacity: 1; pointer-events: auto; }
 
     .modal-card {
       background: linear-gradient(135deg, #fff0f5 0%, #ffe6ee 100%);
@@ -310,11 +357,7 @@
       color: #3a1f2a;
     }
 
-    .modal-card p {
-      font-size: 1rem;
-      color: #4b2f38;
-      line-height: 1.5;
-    }
+    .modal-card p { font-size: 1rem; color: #4b2f38; line-height: 1.5; }
 
     .music-tile {
       margin-top: 14px;
@@ -325,17 +368,8 @@
       text-align: left;
     }
 
-    .music-tile h5 {
-      margin-bottom: 8px;
-      font-size: 1rem;
-      color: #3a1f2a;
-    }
-
-    .music-tile iframe {
-      width: 100%;
-      border: none;
-      border-radius: 12px;
-    }
+    .music-tile h5 { margin-bottom: 8px; font-size: 1rem; color: #3a1f2a; }
+    .music-tile iframe { width: 100%; border: none; border-radius: 12px; }
 
     .modal-close {
       position: absolute;
@@ -350,7 +384,6 @@
       color: #7a2f7a;
       box-shadow: 0 6px 14px rgba(20, 10, 25, 0.12);
     }
-
 
     .emoji-rain {
       position: fixed;
@@ -369,11 +402,438 @@
     }
 
     @keyframes fall {
-      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-      10% { opacity: 1; }
+      0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10%  { opacity: 1; }
       100% { transform: translateY(95vh) rotate(360deg); opacity: 0; }
     }
 
+    /* ===== INSTAGRAM CHAT PAGE ===== */
+    .chat-page {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 28px 20px 80px;
+    }
+
+    /* Chat Header with heartbeat */
+    .chat-header {
+      background: linear-gradient(135deg, #fff 0%, #ffeef2 100%);
+      border-radius: 24px;
+      padding: 22px 24px 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chat-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg,
+        #ff5f7a 0%, #ffb199 25%, #ffd36e 50%, #ffb199 75%, #ff5f7a 100%);
+      background-size: 200% 100%;
+      animation: shimmer 2.4s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 0% 0%; }
+      100% { background-position: 200% 0%; }
+    }
+
+    .chat-avatar-lg {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose), var(--peach));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #fff;
+      font-weight: 700;
+      flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(255, 95, 122, 0.35);
+    }
+
+    .chat-header-info h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: #2a1a1f;
+      margin-bottom: 2px;
+    }
+
+    .chat-header-info p { font-size: 0.82rem; color: #9a7a88; }
+
+    /* Heartbeat SVG decoration */
+    .heartbeat-deco {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 120px;
+      height: 50px;
+      opacity: 0.18;
+    }
+
+    .heartbeat-path {
+      fill: none;
+      stroke: var(--rose);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 300;
+      stroke-dashoffset: 300;
+      animation: draw-ecg 1.8s ease-in-out infinite;
+    }
+
+    @keyframes draw-ecg {
+      0%   { stroke-dashoffset: 300; opacity: 0; }
+      20%  { opacity: 1; }
+      80%  { stroke-dashoffset: 0; opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: 0; }
+    }
+
+    /* Stats bar */
+    .chat-stats {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .stat-pill {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid #f2dbe4;
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: 0.8rem;
+      color: #7a5a6d;
+      font-weight: 600;
+    }
+
+    .stat-pill strong { color: var(--rose); }
+
+    /* Month selector pills */
+    .month-section-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #b09aa8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .month-scroll {
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      scrollbar-width: none;
+    }
+    .month-scroll::-webkit-scrollbar { display: none; }
+
+    .month-pills {
+      display: flex;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .month-pill {
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: 2px solid #ffd6e2;
+      background: rgba(255, 255, 255, 0.85);
+      color: var(--berry);
+      font-weight: 600;
+      font-size: 0.84rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Space Grotesk', sans-serif;
+      white-space: nowrap;
+      outline: none;
+    }
+
+    .month-pill:hover { border-color: var(--rose); }
+
+    .month-pill.active {
+      background: linear-gradient(135deg, var(--rose), var(--peach));
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 6px 14px rgba(255, 95, 122, 0.3);
+    }
+
+    /* Chat Window */
+    .chat-window {
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .chat-win-header {
+      padding: 12px 18px;
+      background: linear-gradient(135deg, var(--rose), var(--peach));
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chat-win-header .mini-av {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.5);
+    }
+
+    .chat-win-header .win-name {
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .chat-win-header .win-sub {
+      color: rgba(255,255,255,0.8);
+      font-size: 0.72rem;
+    }
+
+    .chat-win-header .win-heart {
+      margin-left: auto;
+      font-size: 1.1rem;
+      animation: heartbeat-pulse 1.4s ease-in-out infinite;
+    }
+
+    /* Messages scroll area */
+    .chat-msgs-wrap {
+      max-height: 580px;
+      overflow-y: auto;
+      padding: 18px 14px 24px;
+      background: #fff6f3;
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: #ffd6e2 transparent;
+    }
+
+    .chat-msgs-wrap::-webkit-scrollbar { width: 5px; }
+    .chat-msgs-wrap::-webkit-scrollbar-track { background: transparent; }
+    .chat-msgs-wrap::-webkit-scrollbar-thumb {
+      background: #ffd6e2;
+      border-radius: 999px;
+    }
+
+    /* Date separator */
+    .date-sep {
+      text-align: center;
+      margin: 16px 0 10px;
+      position: relative;
+    }
+
+    .date-sep::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #f2dbe4, transparent);
+    }
+
+    .date-sep span {
+      background: #fff6f3;
+      padding: 2px 14px;
+      font-size: 0.72rem;
+      color: #b09aa8;
+      position: relative;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    /* Message row */
+    .msg-row {
+      display: flex;
+      margin-bottom: 4px;
+      align-items: flex-end;
+      gap: 7px;
+    }
+
+    .msg-row.sent { flex-direction: row-reverse; }
+
+    .msg-row + .msg-row.different-sender,
+    .msg-row + .date-sep { margin-top: 10px; }
+
+    /* Small avatar */
+    .msg-av {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+      align-self: flex-end;
+    }
+
+    .msg-av.jyoti {
+      background: linear-gradient(135deg, #7a2f7a, #ff5f7a);
+    }
+
+    .msg-av.arvind {
+      background: linear-gradient(135deg, var(--rose), var(--peach));
+    }
+
+    /* Hide avatar for consecutive messages from same sender */
+    .msg-row.no-avatar .msg-av { visibility: hidden; }
+
+    /* Bubble wrapper */
+    .bubble-wrap {
+      max-width: 70%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .msg-row.sent .bubble-wrap { align-items: flex-end; }
+    .msg-row.received .bubble-wrap { align-items: flex-start; }
+
+    /* Bubble */
+    .bubble {
+      padding: 9px 14px;
+      border-radius: 20px;
+      font-size: 0.91rem;
+      line-height: 1.55;
+      word-break: break-word;
+      white-space: pre-wrap;
+      position: relative;
+      max-width: 100%;
+    }
+
+    .bubble.sent {
+      background: linear-gradient(135deg, var(--rose), var(--peach));
+      color: #fff;
+      border-bottom-right-radius: 5px;
+    }
+
+    .bubble.received {
+      background: #fff;
+      color: #2a1a1f;
+      border: 1px solid #f2dbe4;
+      border-bottom-left-radius: 5px;
+    }
+
+    /* Tighten radius for consecutive same-sender */
+    .msg-row.chain-top.sent .bubble    { border-top-right-radius: 5px; }
+    .msg-row.chain-top.received .bubble { border-top-left-radius: 5px; }
+    .msg-row.chain-mid.sent .bubble    { border-top-right-radius: 5px; border-bottom-right-radius: 5px; }
+    .msg-row.chain-mid.received .bubble { border-top-left-radius: 5px; border-bottom-left-radius: 5px; }
+
+    /* Timestamp */
+    .bubble-time {
+      font-size: 0.67rem;
+      color: #c0a8b4;
+      margin-top: 2px;
+      padding: 0 4px;
+    }
+
+    .msg-row.sent .bubble-time { text-align: right; }
+
+    /* Unsent/media fallback */
+    .bubble.unsent {
+      background: #ffeef2;
+      color: #c0a0b0;
+      border: 1px dashed #ffb5c4;
+      font-style: italic;
+      font-size: 0.82rem;
+    }
+
+    .bubble.unsent.sent {
+      background: rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.7);
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    /* Reaction badge */
+    .bubble-reaction {
+      font-size: 0.82rem;
+      margin-top: 2px;
+      padding: 0 4px;
+    }
+
+    /* Loading state */
+    .chat-loading {
+      text-align: center;
+      padding: 50px 20px;
+      color: #9a7a88;
+    }
+
+    .pulse-heart {
+      font-size: 2.8rem;
+      display: block;
+      margin-bottom: 12px;
+      animation: heartbeat-pulse 1.2s ease-in-out infinite;
+    }
+
+    .chat-loading p { font-size: 0.95rem; }
+
+    /* Empty / error state */
+    .chat-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: #b09aa8;
+      font-size: 0.92rem;
+    }
+
+    .chat-error {
+      background: #fff0f5;
+      border: 1px dashed #ffb5c4;
+      border-radius: 18px;
+      padding: 22px 20px;
+      margin: 6px 0 20px;
+      color: #7a4a5a;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .chat-error code {
+      background: #ffd6e2;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-family: monospace;
+    }
+
+    .chat-error strong { color: var(--rose); }
+
+    /* No month selected placeholder */
+    .month-placeholder {
+      text-align: center;
+      padding: 60px 20px;
+      color: #c0a8b4;
+    }
+
+    .month-placeholder .big-emoji {
+      font-size: 3.5rem;
+      display: block;
+      margin-bottom: 12px;
+      opacity: 0.6;
+    }
+
+    .month-placeholder p { font-size: 0.95rem; }
+
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 700px) {
       .page { padding: 24px 16px 60px; }
       .proposal, .section { padding: 20px; }
@@ -383,12 +843,20 @@
       .modal-card img { max-height: 220px; object-fit: contain; background: #fff; }
       .music-tile { padding: 10px; }
       .music-tile iframe { height: 120px; }
+      .chat-page { padding: 18px 12px 60px; }
+      .bubble-wrap { max-width: 82%; }
+      .chat-msgs-wrap { max-height: 480px; }
+      .chat-header { padding: 16px; }
+      .heartbeat-deco { display: none; }
+      .chat-header-info h2 { font-size: 1.1rem; }
     }
   </style>
 </head>
 <body>
   <canvas class="confetti" id="confetti"></canvas>
   <div class="emoji-rain" id="emojiRain"></div>
+
+  <!-- Day detail modal (valentine) -->
   <div class="modal" id="dayModal" aria-hidden="true">
     <div class="modal-card">
       <button class="modal-close" id="dayClose" type="button">Close</button>
@@ -408,123 +876,273 @@
       </div>
     </div>
   </div>
-  <div class="page">
-    <div class="heart-burst">💘</div>
-    <section class="hero">
-      <div class="hero-card">
-        <div class="ring">💍 My Forever Question</div>
-        <h1 class="title">Jyoti ❤️</h1>
-        <p class="subtitle">
-          I want to be the reason you smile on February 14th and every day after. This page is my
-          tiny universe, made just for you.
+
+  <!-- ===== TAB NAVIGATION ===== -->
+  <nav class="tabs-wrapper">
+    <div class="tabs-inner">
+      <span class="tabs-logo">💘</span>
+      <button class="tab-btn active" data-tab="valentine" onclick="switchTab('valentine')">
+        Valentine 2026
+      </button>
+      <button class="tab-btn" data-tab="chat" onclick="switchTab('chat')">
+        💬 Instagram Chat
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== TAB: VALENTINE 2026 ===== -->
+  <div id="tab-valentine" class="tab-content active">
+    <div class="page">
+      <div class="heart-burst">💘</div>
+      <section class="hero">
+        <div class="hero-card">
+          <div class="ring">💍 My Forever Question</div>
+          <h1 class="title">Jyoti ❤️</h1>
+          <p class="subtitle">
+            I want to be the reason you smile on February 14th and every day after. This page is my
+            tiny universe, made just for you.
+          </p>
+        </div>
+        <div class="proposal">
+          <h2>Hey Love,</h2>
+          <p>
+            I promise to choose you in every season — on loud days, quiet days, and all the days in
+            between. You are my favorite person, my safest place, and my biggest adventure.
+          </p>
+          <p><strong>So… will you be my Valentine?</strong></p>
+          <div class="button-row">
+            <button class="btn btn-yes" id="yesBtn">Yes, always ❤️</button>
+            <button class="btn btn-no" id="noBtn" type="button">No 🙈</button>
+          </div>
+          <p id="noHint" class="subtitle" style="margin-top:12px; font-size:0.9rem; display:none;">
+            Nice try 😄 The "No" button is shy today.
+          </p>
+        </div>
+      </section>
+
+      <section class="section hidden" id="quizSection">
+        <h3>Love Quiz: How Much Do You Love Me?</h3>
+        <div class="quiz-card" id="quizCard">
+          <h4 id="quizQuestion"></h4>
+          <div id="quizOptions"></div>
+        </div>
+        <div class="button-row" style="margin-top: 12px;">
+          <button class="btn btn-no" id="prevBtn" type="button">Back</button>
+          <button class="btn btn-yes" id="nextBtn" type="button">Next</button>
+        </div>
+        <p class="subtitle" id="quizProgress" style="margin-top: 10px; font-size: 0.95rem;"></p>
+        <div class="score-box hidden" id="scoreBox">Your score will show here 💖</div>
+      </section>
+
+      <section class="section hidden" id="timelineSection">
+        <h3>Valentine Week, One by One</h3>
+        <div class="timeline" id="timelineList"></div>
+        <div class="button-row" style="margin-top: 12px;">
+          <button class="btn btn-yes" id="timelineBtn" type="button">Show First Day</button>
+        </div>
+        <p class="subtitle" id="timelineHint" style="margin-top: 10px; font-size: 0.95rem;">
+          Click to reveal each day with a love thought and emoji.
         </p>
-      </div>
-      <div class="proposal">
-        <h2>Hey Love,</h2>
-        <p>
-          I promise to choose you in every season — on loud days, quiet days, and all the days in
-          between. You are my favorite person, my safest place, and my biggest adventure.
-        </p>
-        <p><strong>So… will you be my Valentine?</strong></p>
-        <div class="button-row">
-          <button class="btn btn-yes" id="yesBtn">Yes, always ❤️</button>
-          <button class="btn btn-no" id="noBtn" type="button">No 🙈</button>
-        </div>
-        <p id="noHint" class="subtitle" style="margin-top:12px; font-size:0.9rem; display:none;">
-          Nice try 😄 The “No” button is shy today.
-        </p>
-      </div>
-    </section>
+      </section>
 
-    <section class="section hidden" id="quizSection">
-      <h3>Love Quiz: How Much Do You Love Me?</h3>
-      <div class="quiz-card" id="quizCard">
-        <h4 id="quizQuestion"></h4>
-        <div id="quizOptions"></div>
-      </div>
-      <div class="button-row" style="margin-top: 12px;">
-        <button class="btn btn-no" id="prevBtn" type="button">Back</button>
-        <button class="btn btn-yes" id="nextBtn" type="button">Next</button>
-      </div>
-      <p class="subtitle" id="quizProgress" style="margin-top: 10px; font-size: 0.95rem;"></p>
-      <div class="score-box hidden" id="scoreBox">Your score will show here 💖</div>
-    </section>
+      <section class="section hidden" id="promiseSection">
+        <h3>Promise Cards</h3>
+        <div class="cards">
+          <div class="card">
+            <h4>Always Listen</h4>
+            <p>I will listen with patience, not just with ears but with heart.</p>
+          </div>
+          <div class="card">
+            <h4>Keep the Spark</h4>
+            <p>I will plan small surprises and make ordinary days feel special.</p>
+          </div>
+          <div class="card">
+            <h4>Grow Together</h4>
+            <p>I will support your dreams and celebrate every win with you.</p>
+          </div>
+        </div>
 
-    <section class="section hidden" id="timelineSection">
-      <h3>Valentine Week, One by One</h3>
-      <div class="timeline" id="timelineList"></div>
-      <div class="button-row" style="margin-top: 12px;">
-        <button class="btn btn-yes" id="timelineBtn" type="button">Show First Day</button>
-      </div>
-      <p class="subtitle" id="timelineHint" style="margin-top: 10px; font-size: 0.95rem;">
-        Click to reveal each day with a love thought and emoji.
-      </p>
-    </section>
+        <h3 style="margin-top: 20px;">Sorry Cards</h3>
+        <div class="cards">
+          <div class="card sorry-card" data-emoji="😢">
+            <h4>I Was Wrong</h4>
+            <p>If I mess up, I will say sorry first and fix it with love.</p>
+          </div>
+          <div class="card sorry-card" data-emoji="😢">
+            <h4>Forgive Me?</h4>
+            <p>I will hold your hand, admit my mistake, and earn your smile back.</p>
+          </div>
+          <div class="card sorry-card" data-emoji="😢">
+            <h4>Make It Right</h4>
+            <p>I will learn, change, and never repeat the same mistake.</p>
+          </div>
+        </div>
+      </section>
 
-    <section class="section hidden" id="promiseSection">
-      <h3>Promise Cards</h3>
-      <div class="cards">
-        <div class="card">
-          <h4>Always Listen</h4>
-          <p>I will listen with patience, not just with ears but with heart.</p>
+      <div class="footer">Made with love and a little bit of magic ✨</div>
+    </div>
+  </div>
+
+  <!-- ===== TAB: INSTAGRAM CHAT ===== -->
+  <div id="tab-chat" class="tab-content">
+    <div class="chat-page">
+
+      <!-- Header -->
+      <div class="chat-header">
+        <div class="chat-avatar-lg">J</div>
+        <div class="chat-header-info">
+          <h2>Jyoti & Arvind 💌</h2>
+          <p id="chatHeaderSub">Loading messages…</p>
         </div>
-        <div class="card">
-          <h4>Keep the Spark</h4>
-          <p>I will plan small surprises and make ordinary days feel special.</p>
+        <!-- Heartbeat decoration -->
+        <svg class="heartbeat-deco" viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg">
+          <polyline
+            class="heartbeat-path"
+            points="0,25 15,25 22,10 28,40 35,10 42,40 49,25 60,25 67,18 72,32 77,25 120,25"
+          />
+        </svg>
+      </div>
+
+      <!-- Stats -->
+      <div class="chat-stats" id="chatStats"></div>
+
+      <!-- Loading state -->
+      <div class="chat-loading" id="chatLoading">
+        <span class="pulse-heart">💓</span>
+        <p>Loading your love story…</p>
+      </div>
+
+      <!-- Error state -->
+      <div class="chat-error hidden" id="chatError">
+        <strong>💔 Could not load chat files.</strong><br><br>
+        Make sure <code>m1.json</code>, <code>m2.json</code>, <code>m3.json</code> are in the
+        same folder as this HTML file.<br><br>
+        Then open the page through a local server:<br>
+        <code>python3 -m http.server 8080</code><br>
+        and visit <code>http://localhost:8080/love.html</code>
+      </div>
+
+      <!-- Month selector -->
+      <div id="chatMonthSection" class="hidden">
+        <p class="month-section-label">Browse by month</p>
+        <div class="month-scroll">
+          <div class="month-pills" id="monthPills"></div>
         </div>
-        <div class="card">
-          <h4>Grow Together</h4>
-          <p>I will support your dreams and celebrate every win with you.</p>
+
+        <!-- Chat window -->
+        <div class="chat-window">
+          <div class="chat-win-header">
+            <div class="mini-av">J</div>
+            <div>
+              <div class="win-name" id="winName">ज्योति शेखावत 🍁</div>
+              <div class="win-sub" id="winSub">Select a month to read messages</div>
+            </div>
+            <div class="win-heart">❤️</div>
+          </div>
+
+          <div class="chat-msgs-wrap" id="chatMsgsWrap">
+            <div class="month-placeholder" id="monthPlaceholder">
+              <span class="big-emoji">💬</span>
+              <p>Pick a month above to read your chats</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <h3 style="margin-top: 20px;">Sorry Cards</h3>
-      <div class="cards">
-        <div class="card sorry-card" data-emoji="😢">
-          <h4>I Was Wrong</h4>
-          <p>If I mess up, I will say sorry first and fix it with love.</p>
-        </div>
-        <div class="card sorry-card" data-emoji="😢">
-          <h4>Forgive Me?</h4>
-          <p>I will hold your hand, admit my mistake, and earn your smile back.</p>
-        </div>
-        <div class="card sorry-card" data-emoji="😢">
-          <h4>Make It Right</h4>
-          <p>I will learn, change, and never repeat the same mistake.</p>
-        </div>
-      </div>
-    </section>
-
-    <div class="footer">
-      Made with love and a little bit of magic ✨
     </div>
   </div>
 
   <script>
-    const yesBtn = document.getElementById('yesBtn');
-    const noBtn = document.getElementById('noBtn');
-    const noHint = document.getElementById('noHint');
-    const quizSection = document.getElementById('quizSection');
-    const timelineSection = document.getElementById('timelineSection');
-    const promiseSection = document.getElementById('promiseSection');
-    const scoreBox = document.getElementById('scoreBox');
-    const quizCard = document.getElementById('quizCard');
-    const quizQuestion = document.getElementById('quizQuestion');
-    const quizOptions = document.getElementById('quizOptions');
-    const nextBtn = document.getElementById('nextBtn');
-    const prevBtn = document.getElementById('prevBtn');
-    const quizProgress = document.getElementById('quizProgress');
-    const timelineList = document.getElementById('timelineList');
-    const timelineBtn = document.getElementById('timelineBtn');
-    const timelineHint = document.getElementById('timelineHint');
-    const emojiRain = document.getElementById('emojiRain');
-    const dayModal = document.getElementById('dayModal');
-    const dayClose = document.getElementById('dayClose');
-    const dayImage = document.getElementById('dayImage');
-    const dayTitle = document.getElementById('dayTitle');
-    const dayThought = document.getElementById('dayThought');
-    const musicTile = document.getElementById('musicTile');
-    const musicEmbed = document.getElementById('musicEmbed');
+    /* =============================================
+       SHARED UTILS
+    ============================================= */
+    const $ = id => document.getElementById(id);
+
+    function dropEmojiRain(symbol, count) {
+      const rain = $('emojiRain');
+      for (let i = 0; i < count; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'emoji-drop';
+        drop.textContent = symbol;
+        drop.style.left = `${Math.random() * 100}%`;
+        drop.style.animationDelay = `${Math.random() * 0.6}s`;
+        drop.style.fontSize = `${1.2 + Math.random() * 1.4}rem`;
+        rain.appendChild(drop);
+        setTimeout(() => drop.remove(), 2200);
+      }
+    }
+
+    function fireConfetti() {
+      const canvas = $('confetti');
+      const ctx = canvas.getContext('2d');
+      const pieces = Array.from({ length: 120 }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * -window.innerHeight,
+        size: 6 + Math.random() * 6,
+        speed: 2 + Math.random() * 3,
+        drift: -1 + Math.random() * 2,
+        color: ['#ff5f7a','#ffb199','#ffd36e','#7a2f7a'][Math.floor(Math.random() * 4)]
+      }));
+
+      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      resize();
+      window.addEventListener('resize', resize);
+
+      let frame = 0;
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach(p => {
+          p.y += p.speed; p.x += p.drift;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(p.x, p.y, p.size, p.size);
+          if (p.y > canvas.height + 20) { p.y = -20; p.x = Math.random() * canvas.width; }
+        });
+        frame++;
+        if (frame < 240) requestAnimationFrame(draw);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      requestAnimationFrame(draw);
+    }
+
+    /* =============================================
+       TAB SWITCHING
+    ============================================= */
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      $(`tab-${tab}`).classList.add('active');
+      document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+
+      if (tab === 'chat' && !chatLoaded) {
+        loadChatData();
+      }
+    }
+
+    /* =============================================
+       VALENTINE LOGIC (existing)
+    ============================================= */
+    const yesBtn     = $('yesBtn');
+    const noBtn      = $('noBtn');
+    const noHint     = $('noHint');
+    const quizSection  = $('quizSection');
+    const timelineSection = $('timelineSection');
+    const promiseSection  = $('promiseSection');
+    const scoreBox   = $('scoreBox');
+    const quizQuestion = $('quizQuestion');
+    const quizOptions  = $('quizOptions');
+    const nextBtn    = $('nextBtn');
+    const prevBtn    = $('prevBtn');
+    const quizProgress = $('quizProgress');
+    const timelineList = $('timelineList');
+    const timelineBtn  = $('timelineBtn');
+    const timelineHint = $('timelineHint');
+    const dayModal   = $('dayModal');
+    const dayClose   = $('dayClose');
+    const dayImage   = $('dayImage');
+    const dayTitle   = $('dayTitle');
+    const dayThought = $('dayThought');
+    const musicTile  = $('musicTile');
+    const musicEmbed = $('musicEmbed');
 
     const quizData = [
       {
@@ -542,7 +1160,7 @@
           { label: 'Long drive + music + you', points: 20 },
           { label: 'Movie + popcorn + cuddle', points: 15 },
           { label: 'Street food + walk', points: 12 },
-          { label: 'Let’s just talk forever', points: 18 }
+          { label: "Let's just talk forever", points: 18 }
         ]
       },
       {
@@ -576,70 +1194,49 @@
 
     const timelineData = [
       {
-        day: 'Feb 7',
-        label: 'Rose Day',
-        text: 'You are my favorite rose. 🌹',
-        emoji: '🌹',
+        day: 'Feb 7', label: 'Rose Day', text: 'You are my favorite rose. 🌹', emoji: '🌹',
         image: 'https://raw.githubusercontent.com/ArvindSingh1099/ajs/refs/heads/master/ChatGPT%20Image%20Feb%206%2C%202026%20at%2011_57_02%20PM.png',
         title: 'Happy Rose Day, Jyoti 🌹',
         thought: 'You are the rose of my heart — soft, beautiful, and full of love.',
         spotifyEmbed: 'https://open.spotify.com/embed/track/0Y6YW1552df031DjV8qBHv'
       },
       {
-        day: 'Feb 8',
-        label: 'Propose Day',
-        text: 'I will propose again (and again). 💍',
-        emoji: '💍',
+        day: 'Feb 8', label: 'Propose Day', text: 'I will propose again (and again). 💍', emoji: '💍',
         image: 'https://raw.githubusercontent.com/ArvindSingh1099/ajs/refs/heads/master/purpose.png',
         title: 'Happy Propose Day, Jyoti 💍',
         thought: 'If I had to choose again, I would still choose you.',
         spotifyEmbed: 'https://open.spotify.com/embed/track/6tzckBcK66LzeSA1Opnv35'
       },
       {
-        day: 'Feb 9',
-        label: 'Chocolate Day',
-        text: 'Sweet like you. 🍫',
-        emoji: '🍫',
+        day: 'Feb 9', label: 'Chocolate Day', text: 'Sweet like you. 🍫', emoji: '🍫',
         image: 'https://raw.githubusercontent.com/ArvindSingh1099/ajs/refs/heads/master/chocolate.png',
         title: 'Happy Chocolate Day, Jyoti 🍫',
         thought: 'Life is sweeter with you in it.',
         spotifyEmbed: 'https://open.spotify.com/embed/track/6VBhH7CyP56BXjp8VsDFPZ'
       },
       {
-        day: 'Feb 10',
-        label: 'Teddy Day',
-        text: 'A hug in teddy form. 🧸',
-        emoji: '🧸',
+        day: 'Feb 10', label: 'Teddy Day', text: 'A hug in teddy form. 🧸', emoji: '🧸',
         image: 'https://raw.githubusercontent.com/ArvindSingh1099/ajs/refs/heads/master/teddy.png',
         title: 'Happy Teddy Day, Jyoti 🧸',
         thought: 'This teddy is just a small version of my big hugs.',
         spotifyEmbed: 'https://open.spotify.com/embed/track/24ap6jAhBrPffiM4rMuSgV'
       },
       {
-        day: 'Feb 11',
-        label: 'Promise Day',
-        text: 'I will keep every promise. 🤝',
-        emoji: '🤝',
+        day: 'Feb 11', label: 'Promise Day', text: 'I will keep every promise. 🤝', emoji: '🤝',
         image: 'https://raw.githubusercontent.com/ArvindSingh1099/ajs/refs/heads/master/promise_day.png',
         title: 'Happy Promise Day, Jyoti 🤝',
         thought: 'I promise to love you loudly and gently, every single day.',
         spotifyEmbed: 'https://open.spotify.com/embed/track/2fulGJqMjjE3UDGXqv9kVL'
       },
       {
-        day: 'Feb 12',
-        label: 'Hug Day',
-        text: 'The warmest hug for you. 🤗',
-        emoji: '🤗',
+        day: 'Feb 12', label: 'Hug Day', text: 'The warmest hug for you. 🤗', emoji: '🤗',
         image: 'https://raw.githubusercontent.com/ArvindSingh1099/ajs/refs/heads/master/hug.png',
         title: 'Happy Hug Day, Jyoti 🤗',
         thought: 'Come close — your hug is my favorite home.',
         spotifyEmbed: 'https://open.spotify.com/embed/track/4uxO0ZzMKmPabWq4a5Hbnl'
       },
       {
-        day: 'Feb 13',
-        label: 'Kiss Day',
-        text: 'One kiss, a thousand feelings. 😘',
-        emoji: '😘',
+        day: 'Feb 13', label: 'Kiss Day', text: 'One kiss, a thousand feelings. 😘', emoji: '😘',
         image: 'https://raw.githubusercontent.com/ArvindSingh1099/ajs/refs/heads/master/kiss.png',
         title: 'Happy Kiss Day, Jyoti 😘',
         thought: 'A kiss to remind you how deeply I love you.',
@@ -654,7 +1251,6 @@
       const item = quizData[currentQuestion];
       quizQuestion.textContent = `${currentQuestion + 1}. ${item.question}`;
       quizOptions.innerHTML = '';
-
       item.options.forEach((opt, index) => {
         const label = document.createElement('label');
         label.className = 'option';
@@ -668,14 +1264,11 @@
         } else if (answers[currentQuestion] === opt.points) {
           input.checked = true;
         }
-        input.addEventListener('change', () => {
-          answers[currentQuestion] = opt.points;
-        });
+        input.addEventListener('change', () => { answers[currentQuestion] = opt.points; });
         label.appendChild(input);
         label.appendChild(document.createTextNode(opt.label));
         quizOptions.appendChild(label);
       });
-
       quizProgress.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
       prevBtn.disabled = currentQuestion === 0;
       prevBtn.style.opacity = currentQuestion === 0 ? '0.6' : '1';
@@ -701,34 +1294,26 @@
     function moveNoButton() {
       const parent = noBtn.parentElement;
       const maxX = parent.clientWidth - noBtn.offsetWidth;
-      const maxY = 60;
-      const x = Math.max(0, Math.random() * maxX);
-      const y = Math.max(0, Math.random() * maxY);
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+      noBtn.style.transform = `translate(${Math.max(0, Math.random() * maxX)}px, ${Math.random() * 60}px)`;
       noHint.style.display = 'block';
     }
 
     noBtn.addEventListener('mouseenter', moveNoButton);
-    noBtn.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      moveNoButton();
-    });
+    noBtn.addEventListener('touchstart', e => { e.preventDefault(); moveNoButton(); });
 
     nextBtn.addEventListener('click', () => {
       if (currentQuestion < quizData.length - 1) {
-        currentQuestion += 1;
+        currentQuestion++;
         renderQuestion();
         return;
       }
-
-      const total = answers.reduce((sum, value) => sum + (value || 0), 0);
-      let message = '';
-      if (total >= 90) message = 'Soulmate level: 100% ❤️ You love me to the moon and back!';
-      else if (total >= 70) message = 'Super love score 💖 You are deeply in love!';
-      else if (total >= 50) message = 'Sweet love score 💕 You like me a lot!';
-      else message = 'Cute love score 💗 We need more dates!';
-
-      scoreBox.textContent = `${message} (Score: ${total}/100) 😘`;
+      const total = answers.reduce((s, v) => s + (v || 0), 0);
+      let msg = '';
+      if (total >= 90)      msg = 'Soulmate level: 100% ❤️ You love me to the moon and back!';
+      else if (total >= 70) msg = 'Super love score 💖 You are deeply in love!';
+      else if (total >= 50) msg = 'Sweet love score 💕 You like me a lot!';
+      else                  msg = 'Cute love score 💗 We need more dates!';
+      scoreBox.textContent = `${msg} (Score: ${total}/100) 😘`;
       scoreBox.classList.remove('hidden');
       nextBtn.disabled = true;
       nextBtn.style.opacity = '0.7';
@@ -736,10 +1321,7 @@
     });
 
     prevBtn.addEventListener('click', () => {
-      if (currentQuestion > 0) {
-        currentQuestion -= 1;
-        renderQuestion();
-      }
+      if (currentQuestion > 0) { currentQuestion--; renderQuestion(); }
     });
 
     let timelineIndex = 0;
@@ -752,19 +1334,13 @@
       timelineList.appendChild(row);
       if (!isUnlockedDay(item.day)) {
         row.classList.add('locked');
-        row.addEventListener('click', () => {
-          timelineHint.textContent = `This opens only on ${item.day}.`;
-        });
+        row.addEventListener('click', () => { timelineHint.textContent = `This opens only on ${item.day}.`; });
       } else {
         row.addEventListener('click', () => openDayModal(item));
       }
       dropEmojiRain(item.emoji || '💖', 14);
-      timelineIndex += 1;
-
-      if (timelineIndex === 1) {
-        timelineBtn.textContent = 'Show Next Day';
-      }
-
+      timelineIndex++;
+      if (timelineIndex === 1) timelineBtn.textContent = 'Show Next Day';
       if (timelineIndex >= timelineData.length) {
         timelineBtn.disabled = true;
         timelineBtn.style.opacity = '0.7';
@@ -772,86 +1348,22 @@
       }
     });
 
-    function fireConfetti() {
-      const canvas = document.getElementById('confetti');
-      const ctx = canvas.getContext('2d');
-      const pieces = Array.from({ length: 120 }, () => ({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * -window.innerHeight,
-        size: 6 + Math.random() * 6,
-        speed: 2 + Math.random() * 3,
-        drift: -1 + Math.random() * 2,
-        color: ['#ff5f7a', '#ffb199', '#ffd36e', '#7a2f7a'][Math.floor(Math.random() * 4)]
-      }));
-
-      function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-
-      resize();
-      window.addEventListener('resize', resize);
-
-      let frame = 0;
-      function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        pieces.forEach((p) => {
-          p.y += p.speed;
-          p.x += p.drift;
-          ctx.fillStyle = p.color;
-          ctx.fillRect(p.x, p.y, p.size, p.size);
-          if (p.y > canvas.height + 20) {
-            p.y = -20;
-            p.x = Math.random() * canvas.width;
-          }
-        });
-        frame += 1;
-        if (frame < 240) requestAnimationFrame(draw);
-        else ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
-
-      requestAnimationFrame(draw);
-    }
-
-    function dropEmojiRain(symbol, count) {
-      for (let i = 0; i < count; i += 1) {
-        const drop = document.createElement('div');
-        drop.className = 'emoji-drop';
-        drop.textContent = symbol;
-        drop.style.left = `${Math.random() * 100}%`;
-        drop.style.animationDelay = `${Math.random() * 0.6}s`;
-        drop.style.fontSize = `${1.2 + Math.random() * 1.4}rem`;
-        emojiRain.appendChild(drop);
-        setTimeout(() => drop.remove(), 2200);
-      }
-    }
-
     function isUnlockedDay(dayLabel) {
       const parts = dayLabel.split(' ');
       if (parts.length < 2) return false;
-      const monthMap = {
-        Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
-        Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11
-      };
+      const monthMap = { Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11 };
       const month = monthMap[parts[0]];
       const day = Number(parts[1]);
-      if (Number.isNaN(month) || Number.isNaN(day)) return false;
+      if (isNaN(month) || isNaN(day)) return false;
       const now = new Date();
-      const target = new Date(now.getFullYear(), month, day);
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      return target <= today;
+      return new Date(now.getFullYear(), month, day) <= new Date(now.getFullYear(), now.getMonth(), now.getDate());
     }
 
     function openDayModal(item) {
       dayTitle.textContent = item.title || 'Happy Valentine Day, Jyoti';
       dayThought.textContent = item.thought || 'You are my favorite reason to smile.';
-      if (item.image) {
-        dayImage.src = item.image;
-        dayImage.style.display = 'block';
-      } else {
-        dayImage.src = '';
-        dayImage.style.display = 'none';
-      }
+      dayImage.src = item.image || '';
+      dayImage.style.display = item.image ? 'block' : 'none';
       if (item.spotifyEmbed) {
         musicEmbed.src = item.spotifyEmbed;
         musicTile.style.display = 'block';
@@ -870,17 +1382,337 @@
     }
 
     dayClose.addEventListener('click', closeDayModal);
-    dayModal.addEventListener('click', (e) => {
-      if (e.target === dayModal) closeDayModal();
-    });
-
-    document.querySelectorAll('.sorry-card').forEach((card) => {
-      card.addEventListener('click', () => {
-        dropEmojiRain(card.dataset.emoji || '😢', 16);
-      });
+    dayModal.addEventListener('click', e => { if (e.target === dayModal) closeDayModal(); });
+    document.querySelectorAll('.sorry-card').forEach(card => {
+      card.addEventListener('click', () => dropEmojiRain(card.dataset.emoji || '😢', 16));
     });
 
     renderQuestion();
+
+    /* =============================================
+       INSTAGRAM CHAT LOGIC
+    ============================================= */
+
+    // Facebook exports UTF-8 strings with each byte stored as a Latin-1 codepoint.
+    // This function restores the correct Unicode text.
+    function decodeFB(str) {
+      if (!str || typeof str !== 'string') return str || '';
+      try {
+        const bytes = new Uint8Array(str.split('').map(c => c.charCodeAt(0) & 0xFF));
+        return new TextDecoder('utf-8').decode(bytes);
+      } catch {
+        return str;
+      }
+    }
+
+    // Detect if a string looks like FB-mojibake (has many bytes > 127 as codepoints < 256)
+    function needsDecode(str) {
+      if (!str) return false;
+      let highCount = 0;
+      for (let i = 0; i < Math.min(str.length, 80); i++) {
+        const c = str.charCodeAt(i);
+        if (c >= 128 && c <= 255) highCount++;
+      }
+      return highCount > 2;
+    }
+
+    function safeDecodeFB(str) {
+      if (!str) return '';
+      return needsDecode(str) ? decodeFB(str) : str;
+    }
+
+    // Participant names after decode
+    let JYOTI_NAME = '';
+    let ARVIND_NAME = 'ARVIND SINGH';
+
+    let allMessages = [];
+    let messagesByMonth = {};
+    let chatLoaded = false;
+
+    const MONTH_NAMES = [
+      'January','February','March','April','May','June',
+      'July','August','September','October','November','December'
+    ];
+
+    function monthKey(ts) {
+      const d = new Date(ts);
+      return `${d.getFullYear()}-${String(d.getMonth()).padStart(2,'0')}`;
+    }
+
+    function monthLabel(key) {
+      const [y, m] = key.split('-');
+      return `${MONTH_NAMES[Number(m)]} ${y}`;
+    }
+
+    function formatTime(ts) {
+      const d = new Date(ts);
+      let h = d.getHours(), min = d.getMinutes();
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12 || 12;
+      return `${h}:${String(min).padStart(2,'0')} ${ampm}`;
+    }
+
+    function formatDateSep(ts) {
+      const d = new Date(ts);
+      const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      return `${days[d.getDay()]}, ${MONTH_NAMES[d.getMonth()]} ${d.getDate()}`;
+    }
+
+    function sameDay(ts1, ts2) {
+      const a = new Date(ts1), b = new Date(ts2);
+      return a.getFullYear() === b.getFullYear() &&
+             a.getMonth() === b.getMonth() &&
+             a.getDate() === b.getDate();
+    }
+
+    async function fetchJSON(path) {
+      const resp = await fetch(path);
+      if (!resp.ok) throw new Error(`${resp.status} ${resp.statusText}`);
+      return resp.json();
+    }
+
+    async function loadChatData() {
+      chatLoaded = true;
+      $('chatLoading').classList.remove('hidden');
+      $('chatError').classList.add('hidden');
+      $('chatMonthSection').classList.add('hidden');
+
+      try {
+        // m3 = oldest, m2 = middle, m1 = newest
+        const [d3, d2, d1] = await Promise.all([
+          fetchJSON('message_3.json'),
+          fetchJSON('message_2.json'),
+          fetchJSON('message_1.json')
+        ]);
+
+        // Extract participant names from first file that has them
+        const participants = d1.participants || d2.participants || d3.participants || [];
+        participants.forEach(p => {
+          const name = safeDecodeFB(p.name);
+          if (!name.includes('ARVIND') && name !== 'ARVIND SINGH') {
+            JYOTI_NAME = name;
+          }
+        });
+
+        // Decode and merge all messages, sort by timestamp ascending
+        const rawAll = [
+          ...(d3.messages || []),
+          ...(d2.messages || []),
+          ...(d1.messages || [])
+        ];
+
+        allMessages = rawAll
+          .filter(m => m.timestamp_ms)
+          .sort((a, b) => a.timestamp_ms - b.timestamp_ms)
+          .map(m => ({
+            ...m,
+            sender_name: safeDecodeFB(m.sender_name),
+            content: m.content ? safeDecodeFB(m.content) : null,
+            reactions: m.reactions
+              ? m.reactions.map(r => ({
+                  ...r,
+                  reaction: safeDecodeFB(r.reaction),
+                  actor: safeDecodeFB(r.actor)
+                }))
+              : []
+          }));
+
+        // Group by month
+        messagesByMonth = {};
+        allMessages.forEach(m => {
+          const k = monthKey(m.timestamp_ms);
+          if (!messagesByMonth[k]) messagesByMonth[k] = [];
+          messagesByMonth[k].push(m);
+        });
+
+        const months = Object.keys(messagesByMonth).sort();
+
+        // Update header
+        const arvindCount = allMessages.filter(m => m.sender_name === 'ARVIND SINGH').length;
+        const jyotiCount  = allMessages.length - arvindCount;
+
+        $('chatHeaderSub').textContent = `${allMessages.length.toLocaleString()} messages · ${months.length} months`;
+
+        // Stats pills
+        const statsEl = $('chatStats');
+        statsEl.innerHTML = `
+          <div class="stat-pill">Total <strong>${allMessages.length.toLocaleString()}</strong> messages</div>
+          <div class="stat-pill">Arvind <strong>${arvindCount.toLocaleString()}</strong></div>
+          <div class="stat-pill">${JYOTI_NAME || 'Jyoti'} <strong>${jyotiCount.toLocaleString()}</strong></div>
+          <div class="stat-pill"><strong>${months.length}</strong> months of love</div>
+        `;
+
+        // Render month pills
+        const pillsEl = $('monthPills');
+        pillsEl.innerHTML = '';
+        months.forEach(key => {
+          const btn = document.createElement('button');
+          btn.className = 'month-pill';
+          btn.textContent = monthLabel(key);
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.month-pill').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            renderChatMonth(key);
+          });
+          pillsEl.appendChild(btn);
+        });
+
+        // Update win-name with decoded name
+        if (JYOTI_NAME) $('winName').textContent = JYOTI_NAME;
+
+        $('chatLoading').classList.add('hidden');
+        $('chatMonthSection').classList.remove('hidden');
+
+        // Auto-select the most recent month
+        if (months.length > 0) {
+          const lastBtn = pillsEl.querySelector('.month-pill:last-child');
+          if (lastBtn) lastBtn.click();
+        }
+
+      } catch (err) {
+        console.error('Chat load error:', err);
+        $('chatLoading').classList.add('hidden');
+        $('chatError').classList.remove('hidden');
+        $('chatHeaderSub').textContent = 'Could not load messages';
+      }
+    }
+
+    function isSentByArvind(senderName) {
+      return senderName === 'ARVIND SINGH' || senderName.toUpperCase().includes('ARVIND');
+    }
+
+    function getMessageText(msg) {
+      // Handle unsent images
+      if (msg.is_unsent_image_by_messenger_kid_parent) return null;
+
+      if (msg.content) return msg.content;
+
+      // Photos
+      if (msg.photos && msg.photos.length > 0) {
+        return `📷 Photo${msg.photos.length > 1 ? ` (${msg.photos.length})` : ''}`;
+      }
+      // Videos
+      if (msg.videos && msg.videos.length > 0) {
+        return `🎥 Video`;
+      }
+      // Audio
+      if (msg.audio_files && msg.audio_files.length > 0) {
+        return `🎵 Audio`;
+      }
+      // GIFs
+      if (msg.gifs && msg.gifs.length > 0) {
+        return `🎞️ GIF`;
+      }
+      // Sticker
+      if (msg.sticker) {
+        return `✨ Sticker`;
+      }
+      // Share / link
+      if (msg.share) {
+        return `🔗 ${msg.share.link || 'Shared a link'}`;
+      }
+      // Generic reaction/like message
+      if (msg.reactions && msg.reactions.length > 0 && !msg.content) {
+        return null; // standalone reaction, skip
+      }
+
+      return null;
+    }
+
+    function renderChatMonth(monthKey) {
+      const msgs = messagesByMonth[monthKey] || [];
+      const wrap = $('chatMsgsWrap');
+
+      // Update sub-label
+      $('winSub').textContent = `${monthLabel(monthKey)} · ${msgs.length} messages`;
+
+      wrap.innerHTML = '';
+
+      if (msgs.length === 0) {
+        wrap.innerHTML = '<div class="chat-empty">No messages this month 💭</div>';
+        return;
+      }
+
+      let lastTs = null;
+      let lastSender = null;
+      const fragment = document.createDocumentFragment();
+
+      msgs.forEach((msg, idx) => {
+        const text = getMessageText(msg);
+        if (text === null) return; // skip media-only / standalone reactions
+
+        const isSent = isSentByArvind(msg.sender_name);
+        const senderChanged = msg.sender_name !== lastSender;
+
+        // Date separator
+        if (lastTs === null || !sameDay(lastTs, msg.timestamp_ms)) {
+          const sep = document.createElement('div');
+          sep.className = 'date-sep';
+          sep.innerHTML = `<span>${formatDateSep(msg.timestamp_ms)}</span>`;
+          fragment.appendChild(sep);
+          lastSender = null; // reset chain after date break
+        }
+
+        // Look ahead to determine chain position
+        const prevSameSender = !senderChanged && lastTs !== null && sameDay(lastTs, msg.timestamp_ms);
+        const nextMsg = msgs[idx + 1];
+        const nextSameSender = nextMsg &&
+          nextMsg.sender_name === msg.sender_name &&
+          sameDay(msg.timestamp_ms, nextMsg.timestamp_ms);
+
+        const row = document.createElement('div');
+        row.className = `msg-row ${isSent ? 'sent' : 'received'}`;
+        if (senderChanged || lastTs === null) row.classList.add('different-sender');
+        if (prevSameSender) {
+          row.classList.add(nextSameSender ? 'chain-mid' : 'chain-top');
+        }
+        // Hide avatar for consecutive same-sender messages
+        if (prevSameSender) row.classList.add('no-avatar');
+
+        // Small avatar
+        const av = document.createElement('div');
+        av.className = `msg-av ${isSent ? 'arvind' : 'jyoti'}`;
+        av.textContent = isSent ? 'A' : 'J';
+
+        // Bubble
+        const bWrap = document.createElement('div');
+        bWrap.className = 'bubble-wrap';
+
+        const bubble = document.createElement('div');
+        const isUnsent = msg.is_unsent_image_by_messenger_kid_parent ||
+          (msg.content && msg.content.startsWith('You unsent a message'));
+        bubble.className = `bubble ${isSent ? 'sent' : 'received'}${isUnsent ? ' unsent' : ''}`;
+        bubble.textContent = text;
+
+        const timeEl = document.createElement('div');
+        timeEl.className = 'bubble-time';
+        timeEl.textContent = formatTime(msg.timestamp_ms);
+
+        bWrap.appendChild(bubble);
+
+        // Reactions
+        if (msg.reactions && msg.reactions.length > 0) {
+          const rEl = document.createElement('div');
+          rEl.className = 'bubble-reaction';
+          rEl.textContent = msg.reactions.map(r => r.reaction).join(' ');
+          bWrap.appendChild(rEl);
+        }
+
+        bWrap.appendChild(timeEl);
+
+        row.appendChild(av);
+        row.appendChild(bWrap);
+        fragment.appendChild(row);
+
+        lastTs = msg.timestamp_ms;
+        lastSender = msg.sender_name;
+      });
+
+      wrap.appendChild(fragment);
+
+      // Scroll to bottom
+      wrap.scrollTop = wrap.scrollHeight;
+    }
   </script>
 </body>
 </html>
